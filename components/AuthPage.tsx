@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Share2, User, Phone, Lock, Key, UserPlus, LogIn } from 'lucide-react';
+import { Share2, User, Phone, Lock, Key, UserPlus, LogIn, AlertCircle } from 'lucide-react';
 
 interface AuthPageProps {
   onSuccess: () => void;
@@ -24,7 +24,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
     e.preventDefault();
     if (isRegister) {
       if (!formData.userId || !formData.phone || !formData.password || !formData.inviteCode) {
-        setError("Mohon lengkapi semua kolom.");
+        setError("Mohon lengkapi semua kolom pendaftaran.");
         return;
       }
       if (formData.inviteCode !== '080900') {
@@ -95,12 +95,23 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
         <div className="text-center mb-8">
           <h1 className="text-6xl font-serif font-bold tracking-widest text-[#b89b5e] mb-2">GUCCI</h1>
           <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-300">
-            {isRegister ? 'Pendaftaran Anggota' : 'Masuk Akun'}
+            {isRegister ? 'Pendaftaran Akun Kerja' : 'Masuk Akun Kerja'}
           </p>
         </div>
 
         {/* Form */}
-        <div className="bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl p-6 md:p-8 shadow-2xl">
+        <div className="bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl p-6 md:p-8 shadow-2xl animate-fadeIn">
+          
+          {/* New Instruction Banner */}
+          {isRegister && (
+            <div className="mb-6 p-4 bg-[#b89b5e]/10 border border-[#b89b5e]/20 rounded-lg flex gap-3 items-start">
+               <AlertCircle className="text-[#b89b5e] flex-shrink-0 mt-0.5" size={16} />
+               <p className="text-[11px] text-gray-200 leading-relaxed font-medium">
+                 Wajib daftarkan <span className="text-[#b89b5e] font-bold">Akun Kerja</span> anda terlebih dahulu untuk masuk ke sistem dan memilih pesanan.
+               </p>
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} className="space-y-4">
             
             <div className="relative group">
@@ -108,7 +119,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
               <input 
                 type="text" 
                 name="userId"
-                placeholder={isRegister ? "Buat ID Pengguna" : "ID Pengguna"}
+                placeholder={isRegister ? "Buat ID Kerja" : "ID Kerja"}
                 value={formData.userId}
                 onChange={handleInputChange}
                 className="w-full bg-[#2a2a2a]/80 text-white border border-gray-700 rounded-lg py-4 pl-12 pr-4 text-sm focus:outline-none focus:border-[#b89b5e] placeholder-gray-500 transition-colors"
@@ -147,7 +158,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
                 <input 
                   type="text" 
                   name="inviteCode"
-                  placeholder="Kode Undangan"
+                  placeholder="Kode Undangan (Wajib)"
                   value={formData.inviteCode}
                   onChange={handleInputChange}
                   className="w-full bg-[#2a2a2a]/80 text-white border border-gray-700 rounded-lg py-4 pl-12 pr-4 text-sm focus:outline-none focus:border-[#b89b5e] placeholder-gray-500 transition-colors"
@@ -156,7 +167,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
             )}
 
             {error && (
-              <div className="text-red-500 text-xs font-medium text-center animate-pulse">
+              <div className="text-red-500 text-xs font-medium text-center animate-pulse bg-red-900/20 p-2 rounded">
                 {error}
               </div>
             )}
@@ -165,7 +176,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
               type="submit"
               className="w-full bg-[#b89b5e] text-[#1c1c1c] font-bold text-sm uppercase tracking-widest py-4 rounded-lg hover:bg-[#c9ad74] transition-all transform active:scale-[0.98] mt-6 flex items-center justify-center gap-2 shadow-lg shadow-[#b89b5e]/20"
             >
-              {isRegister ? 'Daftar Akun' : 'Masuk'}
+              {isRegister ? 'Daftar Akun Kerja' : 'Masuk Kerja'}
               {isRegister ? <UserPlus size={16} /> : <LogIn size={16} />}
             </button>
 
@@ -180,12 +191,12 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
               }}
               className="text-[#b89b5e] text-[11px] font-bold uppercase tracking-widest hover:underline hover:text-white transition-colors"
             >
-              {isRegister ? 'Sudah punya akun? Masuk' : 'Belum punya akun? Daftar'}
+              {isRegister ? 'Sudah punya akun kerja? Masuk' : 'Belum punya akun? Daftar'}
             </button>
 
             {isRegister && (
               <p className="text-gray-500 text-[10px] mt-4 font-medium">
-                Pastikan Kode Undangan valid (080900) untuk bergabung.
+                Pendaftaran wajib menggunakan Kode Undangan (080900).
               </p>
             )}
           </div>
@@ -196,6 +207,16 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
       <div className="absolute bottom-0 left-0 right-0 pointer-events-none select-none flex justify-center opacity-10">
          <span className="text-[150px] md:text-[220px] font-serif font-bold text-white leading-[0.8]">GUCCI</span>
       </div>
+
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+          animation: fadeIn 0.5s ease-out forwards;
+        }
+      `}</style>
     </div>
   );
 };
