@@ -55,18 +55,29 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
   };
 
   const copyLink = () => {
-    const url = window.location.href;
+    const url = "https://gucci-qingfengspan.vercel.app/";
     navigator.clipboard.writeText(url);
     alert("Link berhasil disalin");
   };
 
+  const VIDEO_URL = "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/pmp4/static/clear/2924921183001/72a0a43c-b6a5-4e83-b80e-f82796b8a315/ab6d51c0-ffbd-47d0-b126-8887bcd0adf5/main.mp4?fastly_token=NjkyNDQwNTlfNjE3OTNmM2NmMmFiMzUwYmU4NzI4MDFmMGEyOGY3YTYzZTJmMjc4ZDI5NjAwZDk3N2EzYmQ1YTg2OTc5Y2I3N18vL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvcG1wNC9zdGF0aWMvY2xlYXIvMjkyNDkyMTE4MzAwMS83MmEwYTQzYy1iNmE1LTRlODMtYjgwZS1mODI3OTZiOGEzMTUvYWI2ZDUxYzAtZmZiZC00N2QwLWIxMjYtODg4N2JjZDBhZGY1L21haW4ubXA0";
+
   return (
     <div className="min-h-screen bg-[#1c1c1c] text-white flex flex-col items-center justify-center relative font-sans overflow-hidden">
-      {/* Background Image/Overlay */}
-      <div 
-        className="absolute inset-0 z-0 opacity-20 bg-cover bg-center"
-        style={{ backgroundImage: 'url("https://media.gucci.com/style/DarkGray_Center_0_0_980x980/1729680305/802730_99999_0099_002_100_0000_Light-gucci-bloom-gift-set.jpg")', filter: 'blur(8px)' }}
-      ></div>
+      {/* Background Video */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <video 
+          autoPlay 
+          muted 
+          loop 
+          playsInline 
+          className="w-full h-full object-cover opacity-60"
+        >
+          <source src={VIDEO_URL} type="video/mp4" />
+        </video>
+      </div>
+      
+      {/* Dark Overlay for readability */}
       <div className="absolute inset-0 bg-black/60 z-0"></div>
 
       <div className="w-full max-w-md px-6 z-10 relative">
@@ -100,7 +111,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
                 placeholder={isRegister ? "Buat ID Pengguna" : "ID Pengguna"}
                 value={formData.userId}
                 onChange={handleInputChange}
-                className="w-full bg-[#2a2a2a] text-white border border-gray-700 rounded-lg py-4 pl-12 pr-4 text-sm focus:outline-none focus:border-[#b89b5e] placeholder-gray-500 transition-colors"
+                className="w-full bg-[#2a2a2a]/80 text-white border border-gray-700 rounded-lg py-4 pl-12 pr-4 text-sm focus:outline-none focus:border-[#b89b5e] placeholder-gray-500 transition-colors"
               />
             </div>
 
@@ -113,7 +124,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
                   placeholder="Nomor Telepon"
                   value={formData.phone}
                   onChange={handleInputChange}
-                  className="w-full bg-[#2a2a2a] text-white border border-gray-700 rounded-lg py-4 pl-12 pr-4 text-sm focus:outline-none focus:border-[#b89b5e] placeholder-gray-500 transition-colors"
+                  className="w-full bg-[#2a2a2a]/80 text-white border border-gray-700 rounded-lg py-4 pl-12 pr-4 text-sm focus:outline-none focus:border-[#b89b5e] placeholder-gray-500 transition-colors"
                 />
               </div>
             )}
@@ -126,7 +137,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
                 placeholder="Kata Sandi"
                 value={formData.password}
                 onChange={handleInputChange}
-                className="w-full bg-[#2a2a2a] text-white border border-gray-700 rounded-lg py-4 pl-12 pr-4 text-sm focus:outline-none focus:border-[#b89b5e] placeholder-gray-500 transition-colors"
+                className="w-full bg-[#2a2a2a]/80 text-white border border-gray-700 rounded-lg py-4 pl-12 pr-4 text-sm focus:outline-none focus:border-[#b89b5e] placeholder-gray-500 transition-colors"
               />
             </div>
 
@@ -139,7 +150,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
                   placeholder="Kode Undangan"
                   value={formData.inviteCode}
                   onChange={handleInputChange}
-                  className="w-full bg-[#2a2a2a] text-white border border-gray-700 rounded-lg py-4 pl-12 pr-4 text-sm focus:outline-none focus:border-[#b89b5e] placeholder-gray-500 transition-colors"
+                  className="w-full bg-[#2a2a2a]/80 text-white border border-gray-700 rounded-lg py-4 pl-12 pr-4 text-sm focus:outline-none focus:border-[#b89b5e] placeholder-gray-500 transition-colors"
                 />
               </div>
             )}
