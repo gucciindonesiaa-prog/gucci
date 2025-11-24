@@ -39,13 +39,25 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
       // Registration successful
       onSuccess();
     } else {
-      // Login logic (mock)
+      // Login logic
        if (!formData.userId || !formData.password) {
         setError("Mohon lengkapi ID dan Kata Sandi.");
         return;
       }
-      // Save user info (mocking phone for login since we don't have a real backend)
-      localStorage.setItem('gucci_user_id', formData.userId);
+
+      // STRICT CHECK: Ensure user has registered on this device
+      const storedUserId = localStorage.getItem('gucci_user_id');
+      
+      if (!storedUserId) {
+        setError("Akun belum terdaftar. Wajib daftar Akun Kerja terlebih dahulu.");
+        return;
+      }
+
+      if (storedUserId !== formData.userId) {
+        setError("ID Kerja tidak ditemukan. Silakan daftar terlebih dahulu.");
+        return;
+      }
+
       if (!localStorage.getItem('gucci_user_phone')) {
           localStorage.setItem('gucci_user_phone', '085256523635'); // Default if not found
       }
@@ -167,7 +179,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
             )}
 
             {error && (
-              <div className="text-red-500 text-xs font-medium text-center animate-pulse bg-red-900/20 p-2 rounded">
+              <div className="text-red-500 text-xs font-medium text-center animate-pulse bg-red-900/20 p-2 rounded border border-red-900/50">
                 {error}
               </div>
             )}
@@ -193,12 +205,6 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
             >
               {isRegister ? 'Sudah punya akun kerja? Masuk' : 'Belum punya akun? Daftar'}
             </button>
-
-            {isRegister && (
-              <p className="text-gray-500 text-[10px] mt-4 font-medium">
-                Pendaftaran wajib menggunakan Kode Undangan (080900).
-              </p>
-            )}
           </div>
         </div>
       </div>
