@@ -93,16 +93,6 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
       <div className="absolute inset-0 bg-black/60 z-0"></div>
 
       <div className="w-full max-w-md px-6 z-10 relative">
-        {/* Copy Link Button */}
-        <div className="absolute -top-16 right-6">
-           <button 
-             onClick={copyLink}
-             className="flex items-center gap-2 bg-[#2a2a2a]/80 backdrop-blur border border-[#b89b5e]/30 text-[#b89b5e] px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#333] transition-colors"
-           >
-             Salin Link <Share2 size={12} />
-           </button>
-        </div>
-
         {/* Title Section */}
         <div className="text-center mb-8">
           <h1 className="text-6xl font-serif font-bold tracking-widest text-[#b89b5e] mb-2">GUCCI</h1>
