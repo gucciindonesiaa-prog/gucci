@@ -6,17 +6,9 @@ import { ConfirmationPage } from './components/ConfirmationPage';
 import { Footer } from './components/Footer';
 import { GET_PRODUCTS } from './constants';
 import { Product } from './types';
-import { AuthPage } from './components/AuthPage';
-import { ProfilePage } from './components/ProfilePage';
 
 const App: React.FC = () => {
-  // Authentication check
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
-    return localStorage.getItem('gucci_auth_token') === 'valid_token_080900';
-  });
-
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
   
   // Initialize state from localStorage to persist data on this device
   const [approvedAgendas, setApprovedAgendas] = useState<number[]>(() => {
@@ -36,29 +28,6 @@ const App: React.FC = () => {
 
   // Default to Agenda 1 on load
   const [currentAgenda, setCurrentAgenda] = useState<number>(1);
-
-  // If not authenticated, show Auth Page
-  if (!isAuthenticated) {
-    return <AuthPage onSuccess={() => {
-      setIsAuthenticated(true);
-      localStorage.setItem('gucci_auth_token', 'valid_token_080900');
-    }} />;
-  }
-
-  // Handle Logout
-  const handleLogout = () => {
-    localStorage.removeItem('gucci_auth_token');
-    // Optional: Keep user details or clear them
-    // localStorage.removeItem('gucci_user_id');
-    // localStorage.removeItem('gucci_user_phone');
-    setIsAuthenticated(false);
-    setIsProfileOpen(false);
-  };
-
-  // If Profile is Open, Show Profile Page
-  if (isProfileOpen) {
-    return <ProfilePage onBackToHome={() => setIsProfileOpen(false)} onLogout={handleLogout} />;
-  }
 
   // Helper to check if an agenda is locked
   const isAgendaLocked = (agendaId: number) => {
@@ -141,12 +110,11 @@ const App: React.FC = () => {
   const isApproved = approvedAgendas.includes(currentAgenda);
 
   return (
-    <div className="min-h-screen bg-white font-sans text-black selection:bg-gray-200 flex flex-col">
+    <div className="min-h-screen bg-gucci-bg font-sans text-black selection:bg-black selection:text-white flex flex-col">
       <Header
         currentAgenda={currentAgenda}
         onSelectAgenda={handleAgendaSelect}
         approvedAgendas={approvedAgendas}
-        onOpenProfile={() => setIsProfileOpen(true)}
       />
       <main className="flex-grow max-w-4xl mx-auto px-4 md:px-8 pt-2 w-full relative">
         {selectedProduct ? (
@@ -179,30 +147,31 @@ const App: React.FC = () => {
           /* PAGE 1: Standard Agenda List View */
           <>
             {/* Hero Title */}
-            <div className="text-center mb-8 mt-4 animate-fadeIn relative">
-              <h1 className="text-2xl font-bold font-serif tracking-widest mb-6 uppercase">
+            <div className="text-center mb-10 mt-6 animate-fadeIn relative">
+              <h1 className="text-3xl font-bold font-serif tracking-[0.2em] mb-4 uppercase text-black">
                 AGENDA {currentAgenda}
               </h1>
               
               {/* Approved Stamp on Main Page */}
               {isApproved && (
-                <div className="absolute top-0 right-0 md:right-20 rotate-12 border-4 border-green-600 text-green-600 px-4 py-1 text-sm font-bold uppercase tracking-widest opacity-80 pointer-events-none">
+                <div className="absolute top-0 right-0 md:right-20 rotate-12 border-2 border-green-700 text-green-700 px-4 py-1 text-sm font-bold uppercase tracking-widest opacity-80 pointer-events-none">
                   APPROVED
                 </div>
               )}
 
               <div className="max-w-md mx-auto px-4">
-                <h2 className="text-[11px] font-bold uppercase tracking-widest mb-2 text-black">
-                  GUCCI BEAUTY GIFT SETS
+                <div className="w-16 h-px bg-black mx-auto mb-4 opacity-20"></div>
+                <h2 className="text-[10px] font-bold uppercase tracking-[0.3em] mb-3 text-gray-500">
+                  Exclusive Selection
                 </h2>
-                <p className="text-xs md:text-sm font-medium leading-relaxed text-gray-900">
-                  The House's curation includes fine fragrances for men and women, as well as designer beauty gift sets.
+                <p className="text-xs md:text-sm font-light leading-relaxed text-gray-600">
+                  Explore the House's curation of fine fragrances and designer gifts, meticulously crafted for the modern era.
                 </p>
               </div>
             </div>
 
             {/* Product Grid */}
-            <div className="grid grid-cols-2 gap-x-3 gap-y-8 md:gap-x-8 md:gap-y-12 animate-fadeIn">
+            <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:gap-x-8 md:gap-y-16 animate-fadeIn pb-12">
               {currentProducts.map((product) => (
                 <ProductCard 
                   key={product.id} 

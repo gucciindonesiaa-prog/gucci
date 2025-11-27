@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import { ShoppingBag, User, Menu, Plus, X, CheckCircle, Lock } from 'lucide-react';
+import { ShoppingBag, Menu, Plus, X, CheckCircle, Lock } from 'lucide-react';
 
 interface HeaderProps {
   currentAgenda: number;
   onSelectAgenda: (id: number) => void;
   approvedAgendas: number[];
-  onOpenProfile: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ currentAgenda, onSelectAgenda, approvedAgendas = [], onOpenProfile }) => {
+export const Header: React.FC<HeaderProps> = ({ currentAgenda, onSelectAgenda, approvedAgendas = [] }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -41,32 +40,31 @@ export const Header: React.FC<HeaderProps> = ({ currentAgenda, onSelectAgenda, a
 
   return (
     <>
-      <header className="bg-white sticky top-0 z-40">
+      <header className="bg-white sticky top-0 z-40 border-b border-gray-100">
         {/* Main Navbar */}
-        <div className="flex items-center justify-between px-4 py-4 md:px-8 border-b border-gray-100 relative bg-white">
+        <div className="flex items-center justify-between px-4 py-5 md:px-8 relative bg-white">
           {/* Logo */}
           <div className="text-3xl tracking-[0.2em] font-serif font-bold text-black cursor-pointer" onClick={() => handleAgendaClick(1, false)}>
             GUCCI
           </div>
 
           {/* Icons */}
-          <div className="flex items-center space-x-5 text-black">
-            <ShoppingBag size={20} strokeWidth={1.5} className="cursor-pointer hover:opacity-70" onClick={handleShopClick} />
-            <User size={20} strokeWidth={1.5} className="cursor-pointer hover:opacity-70" onClick={onOpenProfile} />
-            <button onClick={toggleMenu} className="focus:outline-none hover:opacity-70">
-              {isMenuOpen ? <X size={20} strokeWidth={1.5} /> : <Menu size={20} strokeWidth={1.5} />}
+          <div className="flex items-center space-x-6 text-black">
+            <ShoppingBag size={20} strokeWidth={1.5} className="cursor-pointer hover:text-gray-600 transition-colors" onClick={handleShopClick} />
+            <button onClick={toggleMenu} className="focus:outline-none hover:text-gray-600 transition-colors">
+              {isMenuOpen ? <X size={24} strokeWidth={1.5} /> : <Menu size={24} strokeWidth={1.5} />}
             </button>
           </div>
         </div>
 
         {/* Sub-header contact link */}
-        <div className="px-4 py-3 md:px-8 bg-white relative z-10">
+        <div className="px-4 py-2 md:px-8 bg-gray-50 relative z-10 flex justify-end border-b border-gray-100">
           <button 
             onClick={handleContactClick}
-            className="flex items-center text-[10px] font-bold uppercase tracking-widest text-black hover:opacity-70 transition-opacity"
+            className="flex items-center text-[10px] font-bold uppercase tracking-widest text-gray-500 hover:text-black transition-colors"
           >
             <Plus size={10} className="mr-1" strokeWidth={3} />
-            Contact Us
+            Contact Advisor
           </button>
         </div>
       </header>
@@ -75,14 +73,14 @@ export const Header: React.FC<HeaderProps> = ({ currentAgenda, onSelectAgenda, a
       {isMenuOpen && (
         <div className="fixed inset-0 bg-white z-50 flex flex-col animate-fadeIn pt-24 px-8 overflow-y-auto">
           {/* Close Button absolute positioned to match header layout */}
-          <div className="absolute top-0 left-0 right-0 px-4 py-4 md:px-8 flex justify-end border-b border-transparent">
-             <button onClick={toggleMenu} className="p-1 hover:opacity-70">
-               <X size={24} strokeWidth={1.5} />
+          <div className="absolute top-0 left-0 right-0 px-4 py-5 md:px-8 flex justify-end">
+             <button onClick={toggleMenu} className="p-1 text-black hover:text-gray-600 transition-colors">
+               <X size={28} strokeWidth={1.5} />
              </button>
           </div>
 
-          <div className="flex flex-col items-center space-y-6 pb-12">
-            <h2 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-4">Select Agenda</h2>
+          <div className="flex flex-col items-center space-y-8 pb-12">
+            <h2 className="text-xs font-bold uppercase tracking-[0.3em] text-gray-400 mb-4">Select Agenda</h2>
             {[1, 2, 3, 4, 5].map((num) => {
               const locked = isLocked(num);
               const approved = approvedAgendas.includes(num);
@@ -91,43 +89,43 @@ export const Header: React.FC<HeaderProps> = ({ currentAgenda, onSelectAgenda, a
                   key={num}
                   onClick={() => handleAgendaClick(num, locked)}
                   disabled={locked}
-                  className={`text-2xl font-serif tracking-widest transition-colors flex items-center gap-3 ${
-                    currentAgenda === num ? 'text-black font-bold' : 
-                    locked ? 'text-gray-300 cursor-not-allowed' : 'text-gray-600 hover:text-black'
+                  className={`text-3xl font-serif tracking-widest transition-all flex items-center gap-4 ${
+                    currentAgenda === num ? 'text-black scale-110' : 
+                    locked ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:text-black'
                   }`}
                 >
-                  <span className={currentAgenda === num ? 'border-b-2 border-black pb-1' : ''}>
+                  <span className={currentAgenda === num ? 'border-b border-black pb-2' : ''}>
                     AGENDA {num}
                   </span>
                   
-                  {locked && <Lock size={16} className="text-gray-300" />}
+                  {locked && <Lock size={18} className="text-gray-300" />}
                   
                   {!locked && approved && (
-                    <div className="flex items-center bg-green-100 text-green-700 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide">
+                    <div className="flex items-center text-green-600 text-[10px] font-bold uppercase tracking-wide border border-green-200 bg-green-50 px-2 py-1 rounded">
                       <CheckCircle size={12} className="mr-1" />
-                      Approved
+                      Done
                     </div>
                   )}
                 </button>
               );
             })}
             
-            <div className="w-12 h-px bg-gray-200 my-8"></div>
+            <div className="w-16 h-px bg-gray-200 my-8"></div>
             
             <button 
               onClick={() => handleAgendaClick(100, isLocked(100))}
               disabled={isLocked(100)}
-              className={`text-sm font-bold uppercase tracking-widest transition-colors flex items-center gap-2 ${
-                currentAgenda === 100 ? 'text-black border-b border-black' : 
-                isLocked(100) ? 'text-gray-300 cursor-not-allowed' : 'text-black hover:opacity-70'
+              className={`text-lg font-bold uppercase tracking-[0.2em] transition-colors flex items-center gap-3 ${
+                currentAgenda === 100 ? 'text-black' : 
+                isLocked(100) ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:text-black'
               }`}
             >
               Collections
-              {isLocked(100) && <Lock size={12} />}
+              {isLocked(100) && <Lock size={14} />}
               {!isLocked(100) && approvedAgendas.includes(100) && (
-                <div className="flex items-center bg-green-100 text-green-700 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide ml-2">
+                <div className="flex items-center text-green-600 text-[10px] font-bold uppercase tracking-wide border border-green-200 bg-green-50 px-2 py-1 rounded ml-2">
                   <CheckCircle size={12} className="mr-1" />
-                  Approved
+                  Done
                 </div>
               )}
             </button>

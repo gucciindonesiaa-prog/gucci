@@ -11,16 +11,17 @@ interface CollectionsPageProps {
 export const CollectionsPage: React.FC<CollectionsPageProps> = ({ onSelect, isApproved }) => {
   return (
     <div className="animate-fadeIn">
-      <div className="text-center mb-8">
-        <h1 className="text-xl font-bold font-serif tracking-widest uppercase mb-2">
+      <div className="text-center mb-10">
+        <h1 className="text-2xl font-bold font-serif tracking-[0.2em] uppercase mb-3 text-black">
           Special Collection
         </h1>
-        <p className="text-xs text-gray-500 font-medium max-w-md mx-auto">
-          Exclusive weekend selection
+        <div className="w-12 h-px bg-black mx-auto mb-3 opacity-20"></div>
+        <p className="text-xs text-gray-500 font-light tracking-widest max-w-md mx-auto uppercase">
+          Exclusive Weekend Selection
         </p>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {COLLECTION_PRODUCTS.map((item) => {
               // Adapt to Product interface for display
               const displayProduct: Product = {
